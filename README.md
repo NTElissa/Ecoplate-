@@ -84,7 +84,7 @@ cd ../server && NODE_ENV=production npm start
 In production the Express server also serves `client/dist`, so one process runs everything.
 Set a long random `JWT_SECRET`, use a real `MONGO_URI`, and put the site behind HTTPS.
 Uploaded images are stored in `server/uploads`. Keep that folder on persistent storage and back it up.
-If the API is on a different domain from the site, set `CLIENT_URL` on the server and `VITE_API_URL` / `VITE_API_ORIGIN` in `client/.env`.
+If the API is on a different domain from the site, set `CLIENT_URL` on the server and `VITE_API_URL` / `VITE_API_ORIGIN` in `client/.env`. `VITE_API_URL` can be the API origin or its `/api` base; the client adds `/api` when it is omitted.
 
 ## 7. Security already in place
 

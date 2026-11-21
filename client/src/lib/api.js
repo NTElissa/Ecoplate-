@@ -1,4 +1,5 @@
-const BASE = import.meta.env.VITE_API_URL || '/api';
+const configuredBase = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const BASE = configuredBase.endsWith('/api') ? configuredBase : `${configuredBase}/api`;
 export const LOGIN_PATH = (import.meta.env.VITE_ADMIN_LOGIN_PATH || '').replace(/^\/+|\/+$/g, '');
 const TOKEN_KEY = 'ecoplate_token';
 
