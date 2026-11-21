@@ -5,7 +5,7 @@ import PublicContentPage from './pages/PublicContent.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Login from './pages/Login.jsx';
 import { useAuth } from './context/AuthContext.jsx';
-import { LOGIN_PATH } from './lib/api.js';
+import { DASHBOARD_PATH, LOGIN_PATH } from './lib/api.js';
 import ScrollManager from './components/ScrollManager.jsx';
 import { useGlobalReveal } from './lib/useReveal.js';
 
@@ -22,8 +22,13 @@ function Protected({ children }) {
   return user ? children : <NotFound />;
 }
 
+function StaffEntry() {
+  const { user, loading } = useAuth();
+  if (loading) return <Spinner />;
+  return user ? <Suspense fallback={<Spinner />}><Dashboard /></Suspense> : <Login />;
+}
+
 export default function App() {
-  const { user } = useAuth();
   useGlobalReveal();
   return (
     <>
@@ -35,7 +40,7 @@ export default function App() {
       <Route path="/results" element={<Navigate to="/how-it-works#results" replace />} />
       <Route path="/news" element={<PublicContentPage page="news" />} />
       <Route path="/donate" element={<PublicContentPage page="donate" />} />
-      {LOGIN_PATH && <Route path={`/${LOGIN_PATH}`} element={user ? <Navigate to="/dashboard" replace /> : <Login />} />}
+      {LOGIN_PATH && <Route path={`${DASHBOARD_PATH}/*`} element={<StaffEntry />} />}
       <Route path="/dashboard/*" element={<Protected><Suspense fallback={<Spinner />}><Dashboard /></Suspense></Protected>} />
       <Route path="*" element={<NotFound />} />
     </Routes>

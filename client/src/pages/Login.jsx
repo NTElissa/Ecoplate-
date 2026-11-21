@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { DASHBOARD_PATH } from '../lib/api.js';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 
 export default function Login() {
@@ -19,7 +20,7 @@ export default function Login() {
     setBusy(true);
     try {
       await login(email, password);
-      nav('/dashboard', { replace: true });
+      nav(DASHBOARD_PATH, { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {

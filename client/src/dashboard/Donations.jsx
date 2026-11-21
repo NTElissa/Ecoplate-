@@ -155,7 +155,7 @@ export default function Donations() {
   const onlyUnreplied = params.get('unreplied') === '1';
 
   useEffect(() => { api.get('donations/meta').then(setMeta).catch(() => {}); }, []);
-  // /dashboard/donations?reply=<id> opens that donation ready to answer
+  // The donations route can include ?reply=<id> to open a donation ready to answer.
   useEffect(() => {
     const id = params.get('reply');
     if (id && items) { setOpenId(id); setReplyFirst(true); setParams((p) => { p.delete('reply'); return p; }, { replace: true }); }

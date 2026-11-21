@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import { ArrowRight, Check } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useDash } from './DashboardLayout.jsx';
+import { DASHBOARD_PATH } from '../lib/api.js';
 import { PageHeader, Loading, Status } from './ui.jsx';
 import { money, dateTime } from '../lib/format.js';
 import { truncateWords } from '../lib/text.js';
@@ -30,9 +31,9 @@ export default function Overview() {
   const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   const todo = [];
-  if (d?.pendingCount) todo.push({ n: d.pendingCount, text: d.pendingCount === 1 ? 'donation is waiting for you to confirm' : 'donations are waiting for you to confirm', to: '/dashboard/donations?status=pending', go: 'Review' });
-  if (d?.needsThanks) todo.push({ n: d.needsThanks, text: d.needsThanks === 1 ? 'confirmed gift has not been thanked yet' : 'confirmed gifts have not been thanked yet', to: '/dashboard/donations?status=confirmed&unreplied=1', go: 'Say thanks' });
-  if (c.unreadMessages) todo.push({ n: c.unreadMessages, text: c.unreadMessages === 1 ? 'message has not been read' : 'messages have not been read', to: '/dashboard/messages', go: 'Open inbox' });
+  if (d?.pendingCount) todo.push({ n: d.pendingCount, text: d.pendingCount === 1 ? 'donation is waiting for you to confirm' : 'donations are waiting for you to confirm', to: `${DASHBOARD_PATH}/donations?status=pending`, go: 'Review' });
+  if (d?.needsThanks) todo.push({ n: d.needsThanks, text: d.needsThanks === 1 ? 'confirmed gift has not been thanked yet' : 'confirmed gifts have not been thanked yet', to: `${DASHBOARD_PATH}/donations?status=confirmed&unreplied=1`, go: 'Say thanks' });
+  if (c.unreadMessages) todo.push({ n: c.unreadMessages, text: c.unreadMessages === 1 ? 'message has not been read' : 'messages have not been read', to: `${DASHBOARD_PATH}/messages`, go: 'Open inbox' });
 
   const site = [
     ['Projects', c.projects, 'projects'], ['Partners', c.partners, 'partners'], ['Announcements', c.announcements, 'announcements'],
@@ -96,7 +97,7 @@ export default function Overview() {
       <div className="grid gap-6 lg:grid-cols-2">
         {stats.recentDonations && (
           <section className="panel">
-            <div className="hair flex items-center justify-between border-b px-5 py-3"><h2 className="font-display text-lg font-bold text-forest-900">Latest donations</h2><Link to="/dashboard/donations" className="text-sm font-semibold text-forest-700 underline underline-offset-2">All donations</Link></div>
+            <div className="hair flex items-center justify-between border-b px-5 py-3"><h2 className="font-display text-lg font-bold text-forest-900">Latest donations</h2><Link to={`${DASHBOARD_PATH}/donations`} className="text-sm font-semibold text-forest-700 underline underline-offset-2">All donations</Link></div>
             {stats.recentDonations.length === 0 ? <p className="mute px-5 py-4">No donations yet.</p> : (
               <ul className="ruled">
                 {stats.recentDonations.map((x) => (
@@ -107,7 +108,7 @@ export default function Overview() {
                     </div>
                     <div className="shrink-0 text-right">
                       <p className="num font-bold">{money(x.amount, x.currency)}</p>
-                      <div className="flex items-center justify-end gap-3"><Status tone={TONE[x.status]}>{x.status}</Status><Link to={`/dashboard/donations?reply=${x._id}`} className="text-sm font-semibold text-forest-700 underline underline-offset-2">Reply</Link></div>
+                      <div className="flex items-center justify-end gap-3"><Status tone={TONE[x.status]}>{x.status}</Status><Link to={`${DASHBOARD_PATH}/donations?reply=${x._id}`} className="text-sm font-semibold text-forest-700 underline underline-offset-2">Reply</Link></div>
                     </div>
                   </li>
                 ))}
@@ -117,7 +118,7 @@ export default function Overview() {
         )}
         {stats.recentMessages && (
           <section className="panel">
-            <div className="hair flex items-center justify-between border-b px-5 py-3"><h2 className="font-display text-lg font-bold text-forest-900">Latest messages</h2><Link to="/dashboard/messages" className="text-sm font-semibold text-forest-700 underline underline-offset-2">Open inbox</Link></div>
+            <div className="hair flex items-center justify-between border-b px-5 py-3"><h2 className="font-display text-lg font-bold text-forest-900">Latest messages</h2><Link to={`${DASHBOARD_PATH}/messages`} className="text-sm font-semibold text-forest-700 underline underline-offset-2">Open inbox</Link></div>
             {stats.recentMessages.length === 0 ? <p className="mute px-5 py-4">No messages yet.</p> : (
               <ul className="ruled">
                 {stats.recentMessages.map((m) => (
@@ -137,7 +138,7 @@ export default function Overview() {
           <div className="hair border-b px-5 py-3"><h2 className="font-display text-lg font-bold text-forest-900">On the website now</h2></div>
           <dl className="grid sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3 [&>*]:mx-0">
             {site.map(([label, v, to]) => (
-              <Link key={label} to={`/dashboard/${to}`} className="hair flex items-baseline justify-between gap-3 border-b px-5 py-3 last:border-b-0 hover:bg-leaf-50">
+              <Link key={label} to={`${DASHBOARD_PATH}/${to}`} className="hair flex items-baseline justify-between gap-3 border-b px-5 py-3 last:border-b-0 hover:bg-leaf-50">
                 <dt>{label}</dt><dd className="num font-display text-xl font-bold text-forest-900">{v}</dd>
               </Link>
             ))}

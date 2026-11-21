@@ -3,6 +3,7 @@ import { NavLink, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ExternalLink, Lock, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
+import { DASHBOARD_PATH } from '../lib/api.js';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import { api } from '../lib/api.js';
 import Overview from './Overview.jsx';
@@ -18,31 +19,31 @@ const DashCtx = createContext(null);
 export const useDash = () => useContext(DashCtx);
 
 const GROUPS = [
-  { items: [{ to: '/dashboard', label: 'Overview', end: true }] },
+  { items: [{ to: DASHBOARD_PATH, label: 'Overview', end: true }] },
   {
     label: 'Website',
     items: [
-      { to: '/dashboard/content', label: 'Page content', perm: 'content' },
-      { to: '/dashboard/goals', label: 'Goals and steps', perm: 'goals' },
-      { to: '/dashboard/projects', label: 'Projects', perm: 'projects' },
-      { to: '/dashboard/partners', label: 'Partners', perm: 'partners' },
-      { to: '/dashboard/announcements', label: 'Announcements', perm: 'announcements' },
-      { to: '/dashboard/gallery', label: 'Gallery', perm: 'gallery' },
+      { to: `${DASHBOARD_PATH}/content`, label: 'Page content', perm: 'content' },
+      { to: `${DASHBOARD_PATH}/goals`, label: 'Goals and steps', perm: 'goals' },
+      { to: `${DASHBOARD_PATH}/projects`, label: 'Projects', perm: 'projects' },
+      { to: `${DASHBOARD_PATH}/partners`, label: 'Partners', perm: 'partners' },
+      { to: `${DASHBOARD_PATH}/announcements`, label: 'Announcements', perm: 'announcements' },
+      { to: `${DASHBOARD_PATH}/gallery`, label: 'Gallery', perm: 'gallery' },
     ],
   },
   {
     label: 'People',
     items: [
-      { to: '/dashboard/donations', label: 'Donations', perm: 'donations', badge: 'donations' },
-      { to: '/dashboard/messages', label: 'Messages', perm: 'messages', badge: 'unreadMessages' },
-      { to: '/dashboard/subscribers', label: 'Subscribers', perm: 'subscribers' },
+      { to: `${DASHBOARD_PATH}/donations`, label: 'Donations', perm: 'donations', badge: 'donations' },
+      { to: `${DASHBOARD_PATH}/messages`, label: 'Messages', perm: 'messages', badge: 'unreadMessages' },
+      { to: `${DASHBOARD_PATH}/subscribers`, label: 'Subscribers', perm: 'subscribers' },
     ],
   },
   {
     label: 'Team',
     items: [
-      { to: '/dashboard/admins', label: 'Admins', superOnly: true },
-      { to: '/dashboard/account', label: 'My account' },
+      { to: `${DASHBOARD_PATH}/admins`, label: 'Admins', superOnly: true },
+      { to: `${DASHBOARD_PATH}/account`, label: 'My account' },
     ],
   },
 ];
